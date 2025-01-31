@@ -163,6 +163,9 @@ MainWindow::MainWindow(Document& document,
     , mColorPickLabel(nullptr)
     , mToolBarMainAct(nullptr)
     , mToolBarColorAct(nullptr)
+#ifdef PROJECT_OFFICIAL
+    , mUpdate(nullptr)
+#endif
 {
     Q_ASSERT(!sInstance);
     sInstance = this;
@@ -1739,6 +1742,10 @@ void MainWindow::readSettings(const QString &openProject)
                            [this,
                            openProject]() { openFile(openProject); });
     } else { openWelcomeDialog(); }
+
+#ifdef PROJECT_OFFICIAL
+    mUpdate = new Ui::UpdateChecker(this);
+#endif
 }
 
 void MainWindow::writeSettings()
