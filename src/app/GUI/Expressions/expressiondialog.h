@@ -34,6 +34,7 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
+#include <QDir>
 
 #include "conncontext.h"
 #include "dialogs/dialog.h"
@@ -53,6 +54,9 @@ public:
     ExpressionDialog(QrealAnimator* const target,
                      QWidget * const parent = nullptr);
 
+    void exportPreset(const QString& presetName);
+    void importPreset(const QString& filePath = QString());
+
 private:
     using PropertyBindingMap = std::map<QString, QSharedPointer<PropertyBindingBase>>;
     bool getBindings(PropertyBindingMap& bindings);
@@ -61,6 +65,9 @@ private:
     void updateAllScript();
     void setCurrentTabId(const int id);
     bool apply(const bool action);
+    void loadPresetCombo();
+    void updatePresetCombo();
+    bool checkPresetJSON(const QString& mPresetsDir, const QString& presetFile);
 
     QrealAnimator* const mTarget;
 
@@ -91,6 +98,10 @@ private:
     QLabel* mScriptError;
 
     ConnContext mAutoApplyConn;
+
+    QDir mPresetsDir;
+    QDir mPresetsDirUser;
+    QComboBox* presetCombo;
 };
 
 #endif // EXPRESSIONDIALOG_H
